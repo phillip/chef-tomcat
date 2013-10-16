@@ -77,12 +77,14 @@ if node["tomcat"]["redis"]
   if node["tomcat"]["base_version"] == "6"
     redis_manager_filename = "tomcat-redis-session-manager-1.0.jar"
     redis_manager_checksum = "2d1eba99f18a9e5c930837fe4826ef8ea29237601ef54a0494c74989f507398b"
+    redis_download_url = "https://github.com/downloads/jcoleman/tomcat-redis-session-manager/"
   else
-    redis_manager_filename = "tomcat-redis-session-manager-1.1.jar"
-    redis_manager_checksum = "da9f8d44f0bf40327d47ca54596008bd14c0893503e3eadcea97fdc72da8a0e0"
+    redis_manager_filename = "tomcat-redis-session-manager-1.2.jar"
+    redis_download_url = "https://s3.amazonaws.com/sppcbu-software-images/builds/misc/"
+    redis_manager_checksum = "a0b6d02cd7e5af624f0fd3c4e35d8a3f13b3c581"
   end
   remote_file "/usr/share/tomcat#{node["tomcat"]["base_version"]}/lib/#{redis_manager_filename}" do
-    source "https://github.com/downloads/jcoleman/tomcat-redis-session-manager/#{redis_manager_filename}"
+    source "#{redis_download_url}#{redis_manager_filename}"
     mode "0644"
     checksum redis_manager_checksum
     owner "tomcat#{node["tomcat"]["base_version"]}"
