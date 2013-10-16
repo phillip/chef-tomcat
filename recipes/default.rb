@@ -80,7 +80,7 @@ if node["tomcat"]["redis"]
     redis_download_url = "https://github.com/downloads/jcoleman/tomcat-redis-session-manager/"
   else
     redis_manager_filename = "tomcat-redis-session-manager-1.2.jar"
-    redis_download_url = "https://s3.amazonaws.com/sppcbu-software-images/builds/misc/"
+    redis_download_url = "https://s3.amazonaws.com/#{node[:s3_bucket}/builds/misc/"
     redis_manager_checksum = "a0b6d02cd7e5af624f0fd3c4e35d8a3f13b3c581"
   end
   remote_file "/usr/share/tomcat#{node["tomcat"]["base_version"]}/lib/#{redis_manager_filename}" do
