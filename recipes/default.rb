@@ -77,22 +77,14 @@ if node["tomcat"]["redis"]
   if node["tomcat"]["base_version"] == "6"
     redis_manager_filename = "tomcat-redis-session-manager-1.0.jar"
     redis_manager_checksum = "2d1eba99f18a9e5c930837fe4826ef8ea29237601ef54a0494c74989f507398b"
-
-    remote_file "/usr/share/tomcat#{node["tomcat"]["base_version"]}/lib/#{redis_manager_filename}" do
-      source "https://github.com/downloads/jcoleman/tomcat-redis-session-manager/#{redis_manager_filename}"
-      mode "0644"
-      checksum redis_manager_checksum
-      owner "tomcat#{node["tomcat"]["base_version"]}"
-      group "tomcat#{node["tomcat"]["base_version"]}"
-      notifies :restart, "service[tomcat]"
-    end
+    redis_download_url = "https://github.com/downloads/jcoleman/tomcat-redis-session-manager/"
   else
     redis_manager_filename = "tomcat-redis-session-manager-1.2.jar"
+    redis_download_url = "https://s3.amazonaws.com/sppcbu-software-images/builds/misc/"
+    redis_manager_checksum = "a0b6d02cd7e5af624f0fd3c4e35d8a3f13b3c581"
   end
-  gem_package "aws-sdk"
-  include_recipe "s3_remote_file"
-  s3_remote_file "/usr/share/tomcat#{node["tomcat"]["base_version"]}/lib/#{redis_manager_filename}" do
-    source "s3://#{node['s3_bucket']}/builds/misc/#{redis_manager_filename}"
+  remote_file "/usr/share/tomcat#{node["tomcat"]["base_version"]}/lib/#{redis_manager_filename}" do
+    source "#{redis_download_url}#{redis_manager_filename}"
     mode "0644"
     owner "tomcat#{node["tomcat"]["base_version"]}"
     group "tomcat#{node["tomcat"]["base_version"]}"
